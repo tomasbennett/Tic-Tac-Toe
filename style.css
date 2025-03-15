@@ -1,0 +1,64 @@
+:root{
+    font-size: 62.5%;
+}
+
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    
+    box-sizing: border-box;
+}
+
+html,
+body{
+    font-size: 1.6rem;
+
+    width: 100dvw;
+    height: 100dvh;
+
+    background-color: blue;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen{
+    flex-shrink: 0;
+
+    width: 40rem;
+    height: 20rem;
+
+    cursor: pointer;
+
+    transition: transform 500ms linear;
+}
+
+.start.screen{
+    background-color: bisque;
+}
+
+.player-two-select.screen{
+    background-color: whitesmoke;
+}
+
+.game.screen{
+    background-color: peru;
+}
+
+.game-over.screen{
+    background-color: blanchedalmond;
+}
+
+.pause.screen{
+    background-color: red;
+}
+
+
+
+.screen:active{
+    transform: scale(0.9);
+}
+

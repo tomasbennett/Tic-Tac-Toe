@@ -1,70 +1,100 @@
-class TurnBase {
-    public availableSpaces = [[0, 0], [0, 1], [0, 2]];
-    public moves: { X: number[][]; O: number[][] } = { X: [], O: [] };
-    private turn: ITurn;
+interface Dough {
+    description(): string;
+}
 
-    setTurn(turn: ITurn): void {
-        this.turn = turn;
+interface Sauce {
+    description(): string;
+}
+
+interface Cheese {
+    description(): string;
+}
+
+class ThinDough implements Dough {
+    description(): string {
+        return "This is thin dough selected on the pizza";
     }
-    getTurn(): ITurn {
-        return this.turn;
+}
+
+class ThickDough implements Dough {
+    description(): string {
+        return "This is thick dough selected on the pizza";
     }
-    switchPlayer(spaceTaken: number[]): void {
-        this.turn.switchPlayer(spaceTaken);
+}
+
+class RedSauce implements Sauce {
+    description(): string {
+        return "Red Sauce selected";
+    }
+}
+
+class BBQSauce implements Sauce {
+    description(): string {
+        return "BBQ Sauce selected";
+    }
+}
+
+class RegularCheese implements Cheese {
+    description(): string {
+        return "Regular cheese selected";
+    }
+}
+
+class GlutenFreeCheese implements Cheese {
+    description(): string {
+        return "Gluten free cheese selected";
     }
 }
 
 
+abstract class Factory {
+    doughTopping!: Dough;
+    sauceTopping!: Sauce;
+    cheeseTopping!: Cheese;
 
-interface ITurn {
-    switchPlayer(spaceTaken: number[]): void;
+    constructor(){}
+
+    instantiationLogic(): void {
+        this.prep();
+        this.bake();
+        this.deliver();
+    }
+
+    prep(): void {
+        console.log(`Prep stage includes ${this.doughTopping.description()}, ${this.cheeseTopping.description()} and ${this.sauceTopping.description()}`);
+    };
+    bake(): void {
+        console.log("Baking Pizza now...");
+    };
+    deliver(): void {
+        console.log("Delivering Pizza now...");
+    };
 }
 
-class PlayerXTurn implements ITurn {
-    private game: TurnBase;
-
-    constructor(game: TurnBase) {
-        this.game = game;
-    }
-
-    switchPlayer(spaceTaken: number[]): void {
-        this.game.moves.X.push(spaceTaken);
-        console.log("Now it's O's turn!");
-        this.game.setTurn(new PlayerOTurn(this.game));
+class PizzaOneFactory extends Factory {
+    constructor() {
+        super();
+        this.doughTopping = new ThinDough();
+        this.sauceTopping = new RedSauce();
+        this.cheeseTopping = new RegularCheese();
     }
 }
 
-class PlayerOTurn implements ITurn {
-    private game: TurnBase;
-
-    constructor(game: TurnBase) {
-        this.game = game;
-    }
-
-    switchPlayer(spaceTaken: number[]): void {
-        this.game.moves.O.push(spaceTaken);
-        console.log("Now it's X's turn!");
-        this.game.setTurn(new PlayerXTurn(this.game));
+class PizzaTwoFactory extends Factory {
+    constructor() {
+        super();
+        this.doughTopping = new ThickDough();
+        this.sauceTopping = new BBQSauce();
+        this.cheeseTopping = new GlutenFreeCheese();
     }
 }
 
 
+const pizzaTypeTwo: Factory = new PizzaTwoFactory();
+pizzaTypeTwo.instantiationLogic();
 
 
 
-const player: TurnBase = new TurnBase();
-player.setTurn(new PlayerXTurn(player));
 
-player.switchPlayer([0, 2]);
-player.switchPlayer([0, 0]);
-player.switchPlayer([0, 2]);
-player.switchPlayer([0, 1]);
-player.switchPlayer([0, 2]);
-player.switchPlayer([0, 5]);
 
-console.log(player.moves);
-
-player.switchPlayer([0, 5]);
-
-console.log(player.moves);
 
