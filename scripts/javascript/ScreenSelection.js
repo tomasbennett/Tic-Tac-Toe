@@ -16,16 +16,15 @@ var __extends = (this && this.__extends) || (function () {
 var ScreenFactory = /** @class */ (function () {
     function ScreenFactory() {
     }
-    ScreenFactory.prototype.creationLogic = function (screenManager) {
+    ScreenFactory.prototype.creationLogic = function () {
         var screenName = this.constructor.name;
         var screen = ScreenFactory.cache.get(screenName);
         if (!screen) {
-            screen = this.instantiate(screenManager);
+            screen = this.instantiate();
             ScreenFactory.cache.set(screenName, screen);
         }
         screen.render();
         screen.addEventListeners();
-        return screen;
     };
     ScreenFactory.cache = new Map();
     return ScreenFactory;
@@ -35,8 +34,8 @@ var StartScreenFactory = /** @class */ (function (_super) {
     function StartScreenFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    StartScreenFactory.prototype.instantiate = function (screenManager) {
-        return new StartScreen(screenManager);
+    StartScreenFactory.prototype.instantiate = function () {
+        return new StartScreen();
     };
     return StartScreenFactory;
 }(ScreenFactory));
@@ -45,8 +44,8 @@ var GameScreenFactory = /** @class */ (function (_super) {
     function GameScreenFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    GameScreenFactory.prototype.instantiate = function (screenManager) {
-        return new GameScreen(screenManager);
+    GameScreenFactory.prototype.instantiate = function () {
+        return new GameScreen();
     };
     return GameScreenFactory;
 }(ScreenFactory));
@@ -55,70 +54,36 @@ var TwoPlayerTeamScreenFactory = /** @class */ (function (_super) {
     function TwoPlayerTeamScreenFactory() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    TwoPlayerTeamScreenFactory.prototype.instantiate = function (screenManager) {
-        return new TwoPlayerTeamScreen(screenManager);
+    TwoPlayerTeamScreenFactory.prototype.instantiate = function () {
+        return new TwoPlayerTeamScreen();
     };
     return TwoPlayerTeamScreenFactory;
 }(ScreenFactory));
-var ScreenStateManager = /** @class */ (function () {
-    function ScreenStateManager() {
-    }
-    ScreenStateManager.prototype.render = function () {
-        this.screen.render();
-    };
-    ScreenStateManager.prototype.addEventListeners = function () {
-        this.screen.addEventListeners();
-    };
-    ScreenStateManager.prototype.removeElems = function () {
-        this.screen.removeElems();
-    };
-    ScreenStateManager.prototype.removeEventListeners = function () {
-        this.screen.removeEventListeners();
-    };
-    ScreenStateManager.prototype.getScreen = function () {
-        return this.screen;
-    };
-    ScreenStateManager.prototype.setScreen = function (newScreenState) {
-        this.screen = newScreenState;
-    };
-    return ScreenStateManager;
-}());
 var StartScreen = /** @class */ (function () {
-    function StartScreen(screenManager) {
-        var _this = this;
-        this.screenManager = screenManager;
+    function StartScreen() {
         this.onePlayer = document.createElement("div");
         this.twoPlayer = document.createElement("div");
         this.onePlayer.classList.add("start", "screen", "poneselect");
         this.twoPlayer.classList.add("start", "screen", "ptwoselect");
         this.onePlayer.textContent = "This is the start screen, click to go to Game Screen";
         this.twoPlayer.textContent = "This is the start screen, click to go to Player Two Select Screen";
-        this.onePlayerClickHandler = function () {
-            var gameFactory = new GameScreenFactory();
-            var gameScreen = gameFactory.creationLogic(_this.screenManager);
-            _this.screenManager.setScreen(gameScreen);
-            _this.removeEventListeners();
-            _this.removeElems();
-        };
-        this.twoPlayerClickHandler = function () {
-            var twoPlayerFactory = new TwoPlayerTeamScreenFactory();
-            var twoPlayerScreen = twoPlayerFactory.creationLogic(_this.screenManager);
-            _this.screenManager.setScreen(twoPlayerScreen);
-            _this.removeEventListeners();
-            _this.removeElems();
-        };
     }
     StartScreen.prototype.render = function () {
         document.body.appendChild(this.onePlayer);
         document.body.appendChild(this.twoPlayer);
     };
     StartScreen.prototype.addEventListeners = function () {
-        this.onePlayer.addEventListener("click", this.onePlayerClickHandler);
-        this.twoPlayer.addEventListener("click", this.twoPlayerClickHandler);
+        this.onePlayer.addEventListener("click", this.changePage.bind(this, new GameScreenFactory()));
+        this.twoPlayer.addEventListener("click", this.changePage.bind(this, new TwoPlayerTeamScreenFactory()));
+    };
+    StartScreen.prototype.changePage = function (newPage) {
+        newPage.creationLogic();
+        this.removeEventListeners();
+        this.removeElems();
     };
     StartScreen.prototype.removeEventListeners = function () {
-        this.onePlayer.removeEventListener("click", this.onePlayerClickHandler);
-        this.twoPlayer.removeEventListener("click", this.twoPlayerClickHandler);
+        this.onePlayer.removeEventListener("click", this.changePage.bind(this, new GameScreenFactory()));
+        this.twoPlayer.removeEventListener("click", this.changePage.bind(this, new TwoPlayerTeamScreenFactory()));
     };
     StartScreen.prototype.removeElems = function () {
         this.onePlayer.remove();
@@ -127,8 +92,7 @@ var StartScreen = /** @class */ (function () {
     return StartScreen;
 }());
 var GameScreen = /** @class */ (function () {
-    function GameScreen(screenManager) {
-        this.screenManager = screenManager;
+    function GameScreen() {
         this.game = document.createElement("div");
         this.game.classList.add("screen", "game");
         this.game.textContent = "This is the game screen";
@@ -148,8 +112,7 @@ var GameScreen = /** @class */ (function () {
     return GameScreen;
 }());
 var TwoPlayerTeamScreen = /** @class */ (function () {
-    function TwoPlayerTeamScreen(screenManager) {
-        this.screenManager = screenManager;
+    function TwoPlayerTeamScreen() {
         this.xSelector = document.createElement("div");
         this.xSelector.classList.add("player-two-select", "screen", "x");
         this.xSelector.textContent = "Click for X";
@@ -172,17 +135,15 @@ var TwoPlayerTeamScreen = /** @class */ (function () {
     };
     return TwoPlayerTeamScreen;
 }());
-var screenManager = new ScreenStateManager();
 var startScreenFactory = new StartScreenFactory();
-var startScreen = startScreenFactory.creationLogic(screenManager);
-screenManager.setScreen(startScreen);
+startScreenFactory.creationLogic();
 /*
 
 class GameOverScreen implements IScreen {
-    private screenManager: ScreenStateManager;
+    private ;
 
-    constructor(screenManager: ScreenStateManager) {
-        this.screenManager = screenManager;
+    constructor() {
+        this. = ;
     }
 
     render(): void {
@@ -201,10 +162,10 @@ class GameOverScreen implements IScreen {
 }
 
 class PauseScreen implements IScreen {
-    private screenManager: ScreenStateManager;
+    private ;
 
-    constructor(screenManager: ScreenStateManager) {
-        this.screenManager = screenManager;
+    constructor() {
+        this. = ;
     }
 
     render(): void {
