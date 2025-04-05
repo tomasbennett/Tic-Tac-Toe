@@ -18,47 +18,35 @@ body{
     width: 100dvw;
     height: 100dvh;
 
-    background-color: blue;
+    background: linear-gradient(to bottom right, 
+                                #d3cae0, 
+                                #a195b3);
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.screen{
-    flex-shrink: 0;
 
-    width: 40rem;
-    height: 20rem;
+.x-svg.playing-piece{
 
-    cursor: pointer;
-
-    transition: transform 500ms linear;
 }
 
-.start.screen{
-    background-color: bisque;
-}
+.o-svg.playing-piece{
 
-.player-two-select.screen{
-    background-color: whitesmoke;
-}
-
-.game.screen{
-    background-color: peru;
-}
-
-.game-over.screen{
-    background-color: blanchedalmond;
-}
-
-.pause.screen{
-    background-color: red;
 }
 
 
 
-.screen:active{
-    transform: scale(0.9);
+.vertical-grid{
+
 }
 
+.horizontal-grid{
+
+}
+
+
+.winning-line{
+    
+}
