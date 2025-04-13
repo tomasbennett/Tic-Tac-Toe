@@ -29,60 +29,101 @@ body{
 }
 
 
-.invisible{
+
+
+
+svg#main-board-svg{
+    --svg-glow-bcg: rgb(243, 203, 255);
+
+    flex-shrink: 0;
+
+    width: 70rem;
+    height: 70rem;
+    padding: 2rem;
+
+    border: .2rem solid var(--svg-glow-bcg);
+    border-radius: 1.5rem;
+    
+    box-shadow: 0rem 1rem 2rem var(--svg-glow-bcg);
+
+    
+}
+
+
+#winning-lines > *{
+    opacity: 0;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+#interactive-groups > g >:not(path){
+    opacity: 0;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+
+
+.hover-backdrop[data-animation="animating"]{
+    opacity: 0;
+
+    animation: visibleStart 800ms forwards linear 1050ms;
+}
+
+.hover-backdrop[data-animation="ready"]{
+    cursor: pointer;
+
+    transition: opacity 200ms linear;
+}
+
+
+.hover-backdrop[data-animation="ready"]:hover{
     opacity: 0;
 }
 
 
-.partial-visibility{
-    opacity: 0.7;
+
+.game-border{
+    opacity: 0;
+    transform: translate(2rem, -2rem);
 }
 
 
-.visible{
-    opacity: 1;
-
-    transition: opacity 500ms linear;
+#game-borders-top{
+    animation: visibleStart 600ms forwards linear,
+               movementStart 600ms forwards linear;
 }
 
 
-svg#main-board-svg{
-    flex-shrink: 0;
-
-    width: 80rem;
-    height: 80rem;
-
-    border: blue .8rem solid;
+#game-borders-bottom{
+    animation: visibleStart 600ms forwards linear 150ms,
+               movementStart 600ms forwards linear 150ms;
 }
 
 
-.playing-piece{
-    cursor: pointer;
+#game-borders-left{
+    animation: visibleStart 600ms forwards linear 300ms,
+    movementStart 600ms forwards linear 300ms;
 }
 
-.playing-piece:hover{
-    
-}
-
-.x-svg.playing-piece{
-    opacity: 1;
-}
-
-.o-svg.playing-piece{
-    opacity: 1;
+#game-borders-right{
+    animation: visibleStart 600ms forwards linear 450ms,
+               movementStart 600ms forwards linear 450ms;
 }
 
 
 
-.vertical-grid{
-    pointer-events: none;
+@keyframes visibleStart {
+    to{
+        opacity: 1;
+    }
 }
 
-.horizontal-grid{
-    pointer-events: none;
-}
 
-
-.winning-line{
-    pointer-events: none;
+@keyframes movementStart {
+    to{
+        transform: translate(0rem, 0rem);
+    }
 }
