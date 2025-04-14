@@ -50,19 +50,45 @@ svg#main-board-svg{
 }
 
 
-#winning-lines > *{
+.winning-line{
     opacity: 0;
 
     pointer-events: none;
     user-select: none;
 }
 
-#interactive-groups > g >:not(path){
-    opacity: 0;
 
+
+
+.red-cross[data-visibility="not-visible"],
+.blue-circle[data-visibility="not-visible"]{
+    opacity: 0;
+}
+
+
+.red-cross[data-visibility="partially-visible"],
+.blue-circle[data-visibility="partially-visible"]{
+    opacity: 0.3;
+}
+
+
+.red-cross[data-visibility="fully-visible"],
+.blue-circle[data-visibility="fully-visible"]{
+    opacity: 1;
+}
+
+
+.red-cross,
+.blue-circle{
     pointer-events: none;
     user-select: none;
+
+    transition: opacity 200ms linear;
 }
+
+
+
+
 
 
 
@@ -82,6 +108,21 @@ svg#main-board-svg{
 .hover-backdrop[data-animation="ready"]:hover{
     opacity: 0;
 }
+
+
+
+
+.hover-backdrop.clicked[data-animation="ready"]{
+    opacity: 0;
+}
+
+
+
+
+
+
+
+
 
 
 

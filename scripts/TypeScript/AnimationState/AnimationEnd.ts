@@ -4,14 +4,14 @@ export interface IAnimationEnd {
 }
 
 export class AnimationEndClass implements IAnimationEnd {
-    private elem: HTMLCollectionOf<Element>;
+    private elem: Element[];
 
-    constructor(className: string) {
-        this.elem = document.getElementsByClassName(className);
+    constructor(elem: Element[]) {
+        this.elem = elem;
     }
 
     setAnimationOver(): void {
-        Array.from(this.elem).forEach(animationElem => {
+        this.elem.forEach(animationElem => {
             animationElem.addEventListener("animationend", () => {
                 animationElem.setAttribute("data-animation", "ready");
             });

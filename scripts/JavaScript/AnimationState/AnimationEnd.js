@@ -1,9 +1,9 @@
 export class AnimationEndClass {
-    constructor(className) {
-        this.elem = document.getElementsByClassName(className);
+    constructor(elem) {
+        this.elem = elem;
     }
     setAnimationOver() {
-        Array.from(this.elem).forEach(animationElem => {
+        this.elem.forEach(animationElem => {
             animationElem.addEventListener("animationend", () => {
                 animationElem.setAttribute("data-animation", "ready");
             });

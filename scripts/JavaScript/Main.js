@@ -1,7 +1,6 @@
-import { ViewBox } from "./ViewBox/ViewBox.js";
-import { AnimationEndClass } from "./AnimationState/AnimationEnd.js";
-const viewBox = new ViewBox("main-board-svg", "top-layer-group");
-viewBox.setSVGViewBox();
-const animationEnd = new AnimationEndClass("hover-backdrop");
-animationEnd.setAnimationOver();
+import { StartGame } from "./StartGame/StartGame.js";
+const startGame = new StartGame();
+startGame.setViewBox();
+startGame.setAnimationEnd();
+startGame.addEventListeners();
 //# sourceMappingURL=Main.js.map
