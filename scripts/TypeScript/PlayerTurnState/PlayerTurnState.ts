@@ -1,8 +1,10 @@
 import { IPlayingPiece, PlayingPieceCross, PlayingPieceCircle } from "../GamePlayComponents/PlayingPieces.js";
 import { InteractCondtional } from "../GamePlayConditional/GamePlayConditional.js";
+import { WinCondition } from "../GameIntake/GameRules.js";
+
 
 export interface IPlayerTurnState {
-    makeMove(elem: HTMLElement): void;
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void;
 
     hoverChoiceDisplay(elem: HTMLElement): void;
 
@@ -26,10 +28,20 @@ export class PlayerTurnStateManager {
         this._playerTurnState = value;
     }
 
-    makeMove(elem: HTMLElement): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition): void {
         const conditional: InteractCondtional = new InteractCondtional(elem);
         if(conditional.checkBackdrop()) {
-            this._playerTurnState.makeMove(elem);
+
+
+            const interactiveGroup: HTMLElement = elem.parentElement!;
+
+
+            const parentArr: Element[] = Array.from(interactiveGroup.parentElement?.children || []);
+            const index: number = parentArr.indexOf(interactiveGroup) + 1;
+
+
+
+            this._playerTurnState.makeMove(elem, winCondition, index);
         }
     }
 
@@ -51,7 +63,7 @@ export class PlayerTurnStateManager {
 
 
 
-class PlayerXTurn implements IPlayerTurnState {
+export class PlayerXTurn implements IPlayerTurnState {
     private playerTurnManager: PlayerTurnStateManager;
 
     private playingPiece: IPlayingPiece;
@@ -68,9 +80,14 @@ class PlayerXTurn implements IPlayerTurnState {
         this.playingPiece.partialVisibility();
     }   
 
-    makeMove(elem: HTMLElement): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
+
+        
+        if (winCondition.winConditionCheck(this, indexElem)) {
+            console.log("Player X Wins congratulations!!!");
+        }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerOTurn(this.playerTurnManager));
     }
@@ -82,7 +99,7 @@ class PlayerXTurn implements IPlayerTurnState {
 }
 
 
-class PlayerOTurn implements IPlayerTurnState {
+export class PlayerOTurn implements IPlayerTurnState {
     private playerTurnManager: PlayerTurnStateManager;
 
     private playingPiece: IPlayingPiece;
@@ -99,9 +116,13 @@ class PlayerOTurn implements IPlayerTurnState {
         this.playingPiece.partialVisibility();
     }
 
-    makeMove(elem: HTMLElement): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
+
+        if (winCondition.winConditionCheck(this, indexElem)) {
+            console.log("Player O Wins congratulations!!!");
+        }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerXTurn(this.playerTurnManager));
     }

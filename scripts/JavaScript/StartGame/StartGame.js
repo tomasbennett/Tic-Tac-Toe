@@ -1,12 +1,14 @@
 import { ViewBox } from "../ViewBox/ViewBox.js";
 import { AnimationEndClass } from "../AnimationState/AnimationEnd.js";
 import { PlayerTurnStateManager } from "../PlayerTurnState/PlayerTurnState.js";
+import { WinCondition } from "../GameIntake/GameRules.js";
 export class StartGame {
     constructor() {
         this.hoverBackdrops = Array.from(document.getElementsByClassName("hover-backdrop"));
         this.viewBox = new ViewBox("main-board-svg", "top-layer-group");
         this.animationEnd = new AnimationEndClass(this.hoverBackdrops);
         this.playerStateManager = new PlayerTurnStateManager();
+        this.winCondition = new WinCondition(3, 3, 3);
     }
     setViewBox() {
         this.viewBox.setSVGViewBox();
@@ -18,7 +20,7 @@ export class StartGame {
         this.hoverBackdrops.forEach(elem => {
             elem.addEventListener("click", (e) => {
                 const targetEl = e.target;
-                this.playerStateManager.makeMove(targetEl);
+                this.playerStateManager.makeMove(targetEl, this.winCondition);
             });
             elem.addEventListener("mouseenter", (e) => {
                 const targetEl = e.target;

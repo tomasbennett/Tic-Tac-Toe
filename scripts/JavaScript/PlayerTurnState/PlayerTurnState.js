@@ -10,10 +10,14 @@ export class PlayerTurnStateManager {
     setPlayerTurnState(value) {
         this._playerTurnState = value;
     }
-    makeMove(elem) {
+    makeMove(elem, winCondition) {
+        var _a;
         const conditional = new InteractCondtional(elem);
         if (conditional.checkBackdrop()) {
-            this._playerTurnState.makeMove(elem);
+            const interactiveGroup = elem.parentElement;
+            const parentArr = Array.from(((_a = interactiveGroup.parentElement) === null || _a === void 0 ? void 0 : _a.children) || []);
+            const index = parentArr.indexOf(interactiveGroup) + 1;
+            this._playerTurnState.makeMove(elem, winCondition, index);
         }
     }
     hoverChoiceDisplay(elem) {
@@ -29,7 +33,7 @@ export class PlayerTurnStateManager {
         }
     }
 }
-class PlayerXTurn {
+export class PlayerXTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCross();
@@ -38,16 +42,19 @@ class PlayerXTurn {
         this.playingPiece.setChosenPiece(elem);
         this.playingPiece.partialVisibility();
     }
-    makeMove(elem) {
+    makeMove(elem, winCondition, indexElem) {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
+        if (winCondition.winConditionCheck(this, indexElem)) {
+            console.log("Player X Wins congratulations!!!");
+        }
         this.playerTurnManager.setPlayerTurnState(new PlayerOTurn(this.playerTurnManager));
     }
     hoverOutDisplay() {
         this.playingPiece.notVisible();
     }
 }
-class PlayerOTurn {
+export class PlayerOTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCircle();
@@ -56,9 +63,12 @@ class PlayerOTurn {
         this.playingPiece.setChosenPiece(elem);
         this.playingPiece.partialVisibility();
     }
-    makeMove(elem) {
+    makeMove(elem, winCondition, indexElem) {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
+        if (winCondition.winConditionCheck(this, indexElem)) {
+            console.log("Player O Wins congratulations!!!");
+        }
         this.playerTurnManager.setPlayerTurnState(new PlayerXTurn(this.playerTurnManager));
     }
     hoverOutDisplay() {
