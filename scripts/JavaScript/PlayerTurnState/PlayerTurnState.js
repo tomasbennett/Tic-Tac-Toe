@@ -37,6 +37,8 @@ export class PlayerXTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCross();
+        const title = document.querySelector("h1");
+        title.textContent = "It's Player X's Turn!!!";
     }
     hoverChoiceDisplay(elem) {
         this.playingPiece.setChosenPiece(elem);
@@ -58,6 +60,8 @@ export class PlayerOTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCircle();
+        const title = document.querySelector("h1");
+        title.textContent = "It's Player O's Turn!!!";
     }
     hoverChoiceDisplay(elem) {
         this.playingPiece.setChosenPiece(elem);

@@ -72,6 +72,9 @@ export class PlayerXTurn implements IPlayerTurnState {
         this.playerTurnManager = playerTurnManager;
 
         this.playingPiece = new PlayingPieceCross();
+
+        const title: HTMLElement = document.querySelector("h1")!;
+        title.textContent = "It's Player X's Turn!!!";
     }
     
     hoverChoiceDisplay(elem: HTMLElement): void {
@@ -108,6 +111,9 @@ export class PlayerOTurn implements IPlayerTurnState {
         this.playerTurnManager = playerTurnManager;
 
         this.playingPiece = new PlayingPieceCircle();
+
+        const title: HTMLElement = document.querySelector("h1")!;
+        title.textContent = "It's Player O's Turn!!!";
     }
     
     hoverChoiceDisplay(elem: HTMLElement): void {
