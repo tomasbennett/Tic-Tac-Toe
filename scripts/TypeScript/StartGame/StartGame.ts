@@ -3,6 +3,7 @@ import { AnimationEndClass, IAnimationEnd } from "../AnimationState/AnimationEnd
 import { PlayerTurnStateManager, IPlayerTurnState } from "../PlayerTurnState/PlayerTurnState.js";
 import { InteractCondtional } from "../GamePlayConditional/GamePlayConditional.js";
 import { WinCondition } from "../GameIntake/GameRules.js";
+import { DialogBox } from "./NewGame.js";
 
 
 export class StartGame {
@@ -15,7 +16,14 @@ export class StartGame {
 
     private winCondition: WinCondition;
 
-    constructor() {
+    private dialogBox: DialogBox;
+
+
+    private clickFunction: (e: Event) => void;
+    private mouseEnterFunction: (e: Event) => void;
+    private mouseLeaveFunction: (e: Event) => void;
+
+    constructor(dialogBox: DialogBox) {
         this.hoverBackdrops = Array.from(document.getElementsByClassName("hover-backdrop")!);
 
         this.viewBox = new ViewBox("main-board-svg", "top-layer-group");
@@ -24,6 +32,27 @@ export class StartGame {
         this.playerStateManager = new PlayerTurnStateManager();
 
         this.winCondition = new WinCondition(3, 3, 3);
+
+
+        this.dialogBox = dialogBox;
+
+
+        this.clickFunction = (e: Event) => {
+            const targetEl = e.target as HTMLElement;
+            this.playerStateManager.makeMove(targetEl, this.winCondition, this.dialogBox);
+        }
+
+        this.mouseEnterFunction = (e: Event) => {
+            const targetEl = e.target as HTMLElement;
+            this.playerStateManager.hoverChoiceDisplay(targetEl);
+        }
+
+        this.mouseLeaveFunction = (e: Event) => {
+            const targetEl = e.target as HTMLElement;
+            this.playerStateManager.hoverOutDisplay(targetEl);
+        }
+
+
     }
 
     setViewBox(): void {
@@ -34,24 +63,40 @@ export class StartGame {
         this.animationEnd.setAnimationOver();
     }
 
+    resetAttributeValues(): void {
+        this.hoverBackdrops.forEach(elem => {
+            elem.classList.remove("clicked");
+            elem.classList.remove("clicked");
+            
+            
+            const redCross: HTMLElement = elem.parentElement?.querySelector(".red-cross")!;
+            const blueCircle: HTMLElement = elem.parentElement?.querySelector(".blue-circle")!;
+        
+            redCross.setAttribute("data-visibility", "not-visible");
+            blueCircle.setAttribute("data-visibility", "not-visible");
+        });
+    }
+
+    removeEventListeners(): void {
+        this.hoverBackdrops.forEach(elem => {
+
+            elem.removeEventListener("click", this.clickFunction);
+
+            elem.removeEventListener("mouseenter", this.mouseEnterFunction);
+
+            elem.removeEventListener("mouseleave", this.mouseLeaveFunction);
+        
+        });
+    }
+
     addEventListeners(): void {
         this.hoverBackdrops.forEach(elem => {
 
-            elem.addEventListener("click", (e) => {
-                const targetEl = e.target as HTMLElement;
-                this.playerStateManager.makeMove(targetEl, this.winCondition);
-            });
+            elem.addEventListener("click", this.clickFunction);
 
-            elem.addEventListener("mouseenter", (e) => {
-                const targetEl = e.target as HTMLElement;
-                this.playerStateManager.hoverChoiceDisplay(targetEl);
-            });
+            elem.addEventListener("mouseenter", this.mouseEnterFunction);
 
-            elem.addEventListener("mouseleave", (e) => {
-                const targetEl = e.target as HTMLElement;
-                this.playerStateManager.hoverOutDisplay(targetEl);
-            });
-        
+            elem.addEventListener("mouseleave", this.mouseLeaveFunction);
         });
     }
 }

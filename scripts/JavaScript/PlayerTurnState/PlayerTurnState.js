@@ -10,14 +10,14 @@ export class PlayerTurnStateManager {
     setPlayerTurnState(value) {
         this._playerTurnState = value;
     }
-    makeMove(elem, winCondition) {
+    makeMove(elem, winCondition, dialogBox) {
         var _a;
         const conditional = new InteractCondtional(elem);
         if (conditional.checkBackdrop()) {
             const interactiveGroup = elem.parentElement;
             const parentArr = Array.from(((_a = interactiveGroup.parentElement) === null || _a === void 0 ? void 0 : _a.children) || []);
             const index = parentArr.indexOf(interactiveGroup) + 1;
-            this._playerTurnState.makeMove(elem, winCondition, index);
+            this._playerTurnState.makeMove(elem, winCondition, index, dialogBox);
         }
     }
     hoverChoiceDisplay(elem) {
@@ -37,18 +37,19 @@ export class PlayerXTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCross();
-        const title = document.querySelector("h1");
-        title.textContent = "It's Player X's Turn!!!";
+        const title = document.getElementById("game-piece-heading");
+        title.setAttribute("data-turn-state", "x-piece");
+        title.textContent = "X";
     }
     hoverChoiceDisplay(elem) {
         this.playingPiece.setChosenPiece(elem);
         this.playingPiece.partialVisibility();
     }
-    makeMove(elem, winCondition, indexElem) {
+    makeMove(elem, winCondition, indexElem, dialogBox) {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
         if (winCondition.winConditionCheck(this, indexElem)) {
-            console.log("Player X Wins congratulations!!!");
+            dialogBox.openDialogBox("X");
         }
         this.playerTurnManager.setPlayerTurnState(new PlayerOTurn(this.playerTurnManager));
     }
@@ -60,18 +61,19 @@ export class PlayerOTurn {
     constructor(playerTurnManager) {
         this.playerTurnManager = playerTurnManager;
         this.playingPiece = new PlayingPieceCircle();
-        const title = document.querySelector("h1");
-        title.textContent = "It's Player O's Turn!!!";
+        const title = document.getElementById("game-piece-heading");
+        title.setAttribute("data-turn-state", "o-piece");
+        title.textContent = "O";
     }
     hoverChoiceDisplay(elem) {
         this.playingPiece.setChosenPiece(elem);
         this.playingPiece.partialVisibility();
     }
-    makeMove(elem, winCondition, indexElem) {
+    makeMove(elem, winCondition, indexElem, dialogBox) {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
         if (winCondition.winConditionCheck(this, indexElem)) {
-            console.log("Player O Wins congratulations!!!");
+            dialogBox.openDialogBox("O");
         }
         this.playerTurnManager.setPlayerTurnState(new PlayerXTurn(this.playerTurnManager));
     }

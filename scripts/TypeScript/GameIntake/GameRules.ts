@@ -105,6 +105,8 @@ export class WinCondition {
 
             }
 
+        } else if (this.turnCounter >= this.rowCount * this.colCount) {
+            
         }
 
         return false;

@@ -13,24 +13,33 @@
 <body>
 
    <h1>
-
+      It's Player <p id="game-piece-heading"></p>'s Turn!!!
    </h1>
    
 
-
-   <div style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);" id="decision-dialog-box" class="winning-dialog-box">
+   <!-- style="display: flex; position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);" -->
+   <dialog id="decision-dialog-box" class="winning-dialog-box">
       
-      <div class="image-container">
-         <img src="./images/trophy-image.gif" alt="Trophy GIF" id="trophy-image">
+      <div id="dialog-container">
+
+         <div class="image-container">
+            <img src="./images/trophy-image.gif" alt="Trophy GIF" id="trophy-image">
+         </div>
+
+         <h2 class="winning-title">
+            Congratulations on your win <span id="winning-title"></span>!!! You truly are the best!!!
+         </h2>
+         <p class="winning-description">
+            Player <span id="winning-description"></span> has won this game of tic-tac-toe! Please press the "Another Game" button below for a new game! 
+         </p>
+
+         <button id="restart-game" type="button">
+            Another Game?
+         </button>
       </div>
 
-      <h2 class="winning-title">
-         Congratulations, on the win Player ? You truly are the best!!!
-      </h2>
-      <p class="winning-description">
-         You are the winner of this game of tic-tac-toe player ?, congratulations! Please press the restart button for another game!
-      </p>
-   </div>
+
+   </dialog>
 
 
 

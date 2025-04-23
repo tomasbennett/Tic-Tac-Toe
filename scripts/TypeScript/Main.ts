@@ -1,6 +1,6 @@
 import { StartGame } from "./StartGame/StartGame.js";
+import { DialogBox } from "./StartGame/NewGame.js";
 
-const startGame: StartGame = new StartGame();
-startGame.setViewBox();
-startGame.setAnimationEnd();
-startGame.addEventListeners();
+const dialogBox: DialogBox = new DialogBox();
+dialogBox.initialiseStartGame();
+dialogBox.addEventListeners();

@@ -1,10 +1,11 @@
 import { IPlayingPiece, PlayingPieceCross, PlayingPieceCircle } from "../GamePlayComponents/PlayingPieces.js";
 import { InteractCondtional } from "../GamePlayConditional/GamePlayConditional.js";
 import { WinCondition } from "../GameIntake/GameRules.js";
+import { DialogBox } from "../StartGame/NewGame.js";
 
 
 export interface IPlayerTurnState {
-    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void;
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number, dialogBox: DialogBox): void;
 
     hoverChoiceDisplay(elem: HTMLElement): void;
 
@@ -28,7 +29,7 @@ export class PlayerTurnStateManager {
         this._playerTurnState = value;
     }
 
-    makeMove(elem: HTMLElement, winCondition: WinCondition): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition, dialogBox: DialogBox): void {
         const conditional: InteractCondtional = new InteractCondtional(elem);
         if(conditional.checkBackdrop()) {
 
@@ -39,9 +40,9 @@ export class PlayerTurnStateManager {
             const parentArr: Element[] = Array.from(interactiveGroup.parentElement?.children || []);
             const index: number = parentArr.indexOf(interactiveGroup) + 1;
 
+            
 
-
-            this._playerTurnState.makeMove(elem, winCondition, index);
+            this._playerTurnState.makeMove(elem, winCondition, index, dialogBox);
         }
     }
 
@@ -73,8 +74,9 @@ export class PlayerXTurn implements IPlayerTurnState {
 
         this.playingPiece = new PlayingPieceCross();
 
-        const title: HTMLElement = document.querySelector("h1")!;
-        title.textContent = "It's Player X's Turn!!!";
+        const title: HTMLElement = document.getElementById("game-piece-heading")!;
+        title.setAttribute("data-turn-state", "x-piece");
+        title.textContent = "X";
     }
     
     hoverChoiceDisplay(elem: HTMLElement): void {
@@ -83,13 +85,13 @@ export class PlayerXTurn implements IPlayerTurnState {
         this.playingPiece.partialVisibility();
     }   
 
-    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number, dialogBox: DialogBox): void {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
 
         
         if (winCondition.winConditionCheck(this, indexElem)) {
-            console.log("Player X Wins congratulations!!!");
+            dialogBox.openDialogBox("X");
         }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerOTurn(this.playerTurnManager));
@@ -112,8 +114,9 @@ export class PlayerOTurn implements IPlayerTurnState {
 
         this.playingPiece = new PlayingPieceCircle();
 
-        const title: HTMLElement = document.querySelector("h1")!;
-        title.textContent = "It's Player O's Turn!!!";
+        const title: HTMLElement = document.getElementById("game-piece-heading")!;
+        title.setAttribute("data-turn-state", "o-piece");
+        title.textContent = "O";
     }
     
     hoverChoiceDisplay(elem: HTMLElement): void {
@@ -122,12 +125,12 @@ export class PlayerOTurn implements IPlayerTurnState {
         this.playingPiece.partialVisibility();
     }
 
-    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number): void {
+    makeMove(elem: HTMLElement, winCondition: WinCondition, indexElem: number, dialogBox: DialogBox): void {
         this.playingPiece.fullVisibility();
         elem.classList.add("clicked");
 
         if (winCondition.winConditionCheck(this, indexElem)) {
-            console.log("Player O Wins congratulations!!!");
+            dialogBox.openDialogBox("O");
         }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerXTurn(this.playerTurnManager));

@@ -1,1 +1,1 @@
-{"version":3,"file":"Main.js","sourceRoot":"","sources":["../TypeScript/Main.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,0BAA0B,CAAC;AAErD,MAAM,SAAS,GAAc,IAAI,SAAS,EAAE,CAAC;AAC7C,SAAS,CAAC,UAAU,EAAE,CAAC;AACvB,SAAS,CAAC,eAAe,EAAE,CAAC;AAC5B,SAAS,CAAC,iBAAiB,EAAE,CAAC"}
+{"version":3,"file":"Main.js","sourceRoot":"","sources":["../TypeScript/Main.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,wBAAwB,CAAC;AAEnD,MAAM,SAAS,GAAc,IAAI,SAAS,EAAE,CAAC;AAC7C,SAAS,CAAC,mBAAmB,EAAE,CAAC;AAChC,SAAS,CAAC,iBAAiB,EAAE,CAAC"}

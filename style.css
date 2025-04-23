@@ -48,17 +48,45 @@ body{
 
 
 h1{
-    color: rgb(255, 235, 235);
+    --header-font-size: 5rem;
 
+    color: rgb(255, 235, 235);
     
-    font-size: 5rem;
+    font-size: var(--header-font-size);
     font-weight: 550;
 
     text-shadow: rgb(29, 29, 29) 0rem .5rem 1rem,
                  rgb(117, 77, 77) 0rem .8rem 1.1rem;
 
     font-family: "Futuristic-Font", Arial, sans-serif;
+
+    display: flex;
+    align-items: center;
 }
+
+
+h1 > #game-piece-heading{
+    margin-left: .8rem;
+
+    font-size: calc(var(--header-font-size) + 2rem);
+
+    
+}
+
+h1 > #game-piece-heading[data-turn-state="x-piece"]{
+    color: rgb(187, 33, 33);
+}
+
+
+h1 > #game-piece-heading[data-turn-state="o-piece"]{
+    color: rgb(26, 106, 180);
+}
+
+
+
+
+
+
 
 
 
@@ -235,17 +263,42 @@ svg#main-board-svg{
     box-shadow: inset 0rem 0rem var(--box-shadow-inner-padding) rgb(110, 110, 110);
     padding: var(--box-shadow-inner-padding);
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
+    border: 0;
 
-    gap: 4rem;
+    margin: auto;
+
+    max-width: 100dvw;
 
     font-family: 'Courier New', Courier, monospace;
 
     text-align: center;
 }
+
+
+.winning-dialog-box::backdrop{
+    background-color: rgba(180, 180, 180, 0.5);
+}
+
+
+#dialog-container{
+    flex-shrink: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+
+    gap: 2rem;
+
+
+}
+
+
+
+
 
 
 
@@ -285,14 +338,14 @@ svg#main-board-svg{
 
 
 .winning-title{
-    font-size: 3rem;
+    font-size: 2.6rem;
 
     color: rgb(61, 61, 61);
 }
 
 
 .winning-description{
-    font-size: 2rem;
+    font-size: 1.8rem;
 
     width: 70rem;
 
@@ -300,6 +353,43 @@ svg#main-board-svg{
 
     color: rgb(126, 126, 126);
 }
+
+
+button#restart-game{
+    flex-shrink: 0;
+
+    font-family: "Futuristic-Font", Arial, sans-serif;
+    font-size: large;
+
+    width: 20rem;
+    height: 5rem;
+
+    background: linear-gradient(to right, rgb(15, 165, 15) 0%,  rgb(0, 121, 0) 50%, rgb(0, 121, 0) 50%, rgb(15, 165, 15) 100%);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+
+    
+    color: white;
+
+    border: 0;
+    border-radius: .6rem;
+
+    box-shadow: .5rem .5rem rgb(179, 179, 179);
+
+    cursor: pointer;
+
+    transition: background-position 200ms linear;
+}
+
+
+button#restart-game:hover{
+    background-position: 100% 0%;
+}
+
+
+
+
+
 
 
 
