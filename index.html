@@ -22,16 +22,18 @@
       
       <div id="dialog-container">
 
-         <div class="image-container">
+         <div id="image-container" class="image-container">
             <img src="./images/trophy-image.gif" alt="Trophy GIF" id="trophy-image">
          </div>
 
-         <h2 class="winning-title">
+         <h2 id="winning-title-container" class="winning-title">
             Congratulations on your win <span id="winning-title"></span>!!! You truly are the best!!!
          </h2>
-         <p class="winning-description">
+         <p id="winning-desc-container" class="winning-description">
             Player <span id="winning-description"></span> has won this game of tic-tac-toe! Please press the "Another Game" button below for a new game! 
          </p>
+
+         <p style="display: none;" id="draw-outcome">Draw</p>
 
          <button id="restart-game" type="button">
             Another Game?

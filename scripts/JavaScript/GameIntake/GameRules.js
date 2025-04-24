@@ -69,9 +69,10 @@ export class WinCondition {
                     return true;
             }
         }
-        else if (this.turnCounter >= this.rowCount * this.colCount) {
-        }
         return false;
+    }
+    drawCondition() {
+        return (this.turnCounter >= (this.rowCount * this.colCount));
     }
 }
 //# sourceMappingURL=GameRules.js.map

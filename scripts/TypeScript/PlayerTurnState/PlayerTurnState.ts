@@ -91,7 +91,13 @@ export class PlayerXTurn implements IPlayerTurnState {
 
         
         if (winCondition.winConditionCheck(this, indexElem)) {
-            dialogBox.openDialogBox("X");
+            dialogBox.winnerSelect("X")
+            dialogBox.openDialogBox();
+            return;
+        } else if (winCondition.drawCondition()) {
+            dialogBox.drawSelect();
+            dialogBox.openDialogBox();
+            return;
         }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerOTurn(this.playerTurnManager));
@@ -130,7 +136,9 @@ export class PlayerOTurn implements IPlayerTurnState {
         elem.classList.add("clicked");
 
         if (winCondition.winConditionCheck(this, indexElem)) {
-            dialogBox.openDialogBox("O");
+            dialogBox.winnerSelect("O")
+            dialogBox.openDialogBox();
+            return;
         }
 
         this.playerTurnManager.setPlayerTurnState(new PlayerXTurn(this.playerTurnManager));

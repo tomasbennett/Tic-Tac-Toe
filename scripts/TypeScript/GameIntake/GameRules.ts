@@ -1,4 +1,6 @@
-import { IPlayerTurnState, PlayerXTurn, PlayerOTurn } from "../PlayerTurnState/PlayerTurnState";
+import { IPlayerTurnState, PlayerXTurn, PlayerOTurn } from "../PlayerTurnState/PlayerTurnState.js";
+import { DialogBox } from "../StartGame/NewGame.js";
+
 
 type Cell = IPlayerTurnState | null;
 
@@ -78,7 +80,7 @@ export class WinCondition {
                 }
     
                 if (points >= this.winCount) return true;
-    
+                
     
                 movingRow = currRow - dir.drow;
                 movingCol = currCol - dir.dcol;
@@ -104,9 +106,6 @@ export class WinCondition {
                 if (points >= this.winCount) return true;
 
             }
-
-        } else if (this.turnCounter >= this.rowCount * this.colCount) {
-            
         }
 
         return false;
@@ -114,6 +113,9 @@ export class WinCondition {
         
     }
 
+    drawCondition(): boolean {
+        return (this.turnCounter >= (this.rowCount * this.colCount)); 
+    }
 
 
 }
