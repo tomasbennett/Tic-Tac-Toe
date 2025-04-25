@@ -313,7 +313,7 @@ h1{
 #trophy-image{
     width: 15rem;
 
-    filter: drop-shadow(0rem 0rem 2rem rgb(197, 197, 197));
+    /* filter: drop-shadow(0rem 0rem 2rem rgb(197, 197, 197)); */
 }
 
 
